@@ -5,8 +5,17 @@ const Booking = require("../models/booking");
 const stripe = require("stripe")(
   "sk_test_51MgKFpIgNG2amp4bnN3RWe55VpVvwCFfITzo5CboGk1gl0QGVWaVzZNHEfzRY66ebvvblPhjy4s0xoLSlN4LZbJL00hCoV6SEw"
 );
-const { v4: uuidv4 } = require("uuid");
+// const { v4: uuidv4 } = require("uuid");
 
+router.post("/getBookingByUserId", async (req, res) => {
+  const userid = req.body.userid;
+  try {
+    const rooms = await Booking.find({ userid: userid });
+    return res.send(rooms);
+  } catch (error) {
+    return res.send(error);
+  }
+});
 router.post("/bookRoom", async (req, res) => {
   const { room, roomid, userid, fromdate, todate, totalamount, totaldays } =
     req.body;
